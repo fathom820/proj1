@@ -37,7 +37,7 @@ public class ClientServer
             String message = in.nextLine();
             System.out.println(message);
 
-            out.writeChars("Hello Client\n");
+            out.writeBytes("Hello Client\n");
 
             // If the client closes the connection if all goes well I will realize
             // it as well and my side will be closed automatically.
@@ -67,7 +67,7 @@ public class ClientServer
 
             Scanner in = new Scanner(clientSocket.getInputStream());
 
-            out.writeChars("Hello Server\n");
+            out.writeBytes("Hello Server\n");
 
             String message = in.nextLine();
             System.out.println(message);

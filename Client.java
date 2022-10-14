@@ -1,11 +1,10 @@
 /**
  * Author: Michael Frank
  */
-class Main {
+class Client {
   public static void main(String[] args) {
     ClientServer clientServer = new ClientServer();
 
-    clientServer.setupServer();
     clientServer.setupClient();
   }
 }
