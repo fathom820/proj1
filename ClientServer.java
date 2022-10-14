@@ -11,6 +11,7 @@ public class ClientServer
 
     ServerSocket serverSocket;
 
+
     public void setupServer()
     {
         try
@@ -73,7 +74,7 @@ public class ClientServer
             System.out.println(message);
 
             // Done talking
-            clientSocket.close();
+//            clientSocket.close();
 
         }
         catch (UnknownHostException e)
@@ -87,5 +88,4 @@ public class ClientServer
             e.printStackTrace();
         }
     }
-
 }

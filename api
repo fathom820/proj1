@@ -1,0 +1,17 @@
+API:
+1. Server gives the first person that connects the privilege of going first, assigns them as X
+
+2. Print game board
+3. If X: enter cell to draw in
+    Format:
+    * A B C
+    1 + + +
+    2 + + +
+    3 + + +
+
+    a. Player enters "A1", "B2", etc.
+    b. If spot is taken,
+4. If O: "X is currently taking their turn."
+
+- Print updated board
+- Repeat
