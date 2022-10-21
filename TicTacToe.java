@@ -143,17 +143,39 @@ public class TicTacToe
 	@Override
 	public String toString()
 	{
-		String board = "-------\n";
+		String board = "";
 		board += "* A B C\n";
 		for (int r=0;r<game_board.length;r++)
 		{
+			board += + r + " ";
 		    for (int c=0;c<game_board[r].length;c++)
 		    {
-		        board += "|" + game_board[r][c];
+		        board += "- ";
 		    }
-		    board += "|\n";
-		    board += "-------\n";
+
+		    board += "\n";
 		}
 		return board;
+	}
+
+	public String toPacketFormat() {
+		String out = "";
+		for (int r = 0; r < game_board.length; r++) {
+			for (int c = 0; c < game_board[r].length; c++) {
+				switch (r) {
+					case 0:
+						out += 'A';
+						break;
+					case 1:
+						out += 'B';
+						break;
+					case 2:
+						out += 'C';
+						break;
+				}
+				out += (c + 1) + "=" + game_board[r][c] + ";";
+			}
+		}
+		return out;
 	}
 }

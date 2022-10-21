@@ -54,6 +54,7 @@ class IoHandler {
                 break;
             case "c":
                 out[0] = 2;
+
                 break;
         }
 

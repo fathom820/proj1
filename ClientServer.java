@@ -11,44 +11,48 @@ public class ClientServer
 
     ServerSocket serverSocket;
 
-    int currentConnections = 0;
+    int counter = 0;
 
-    public void setupServer()
-    {
-        try
-        {
+    int turn = 0; // O for X's turn, 1 for O's turn
+
+    int playerNo;
+
+    public void setupServer() {
+        try {
             // Everything up through bind
             serverSocket = new ServerSocket(4446);
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
-        try
-        {
+        try {
             // Have the server listen and accept if someone tries to connect.
             System.out.println("Starting local server");
             Main.setServerStarted(true);
-            Socket incomingClient = serverSocket.accept();
 
-            Scanner in = new Scanner(incomingClient.getInputStream());
-
-            DataOutputStream out = new DataOutputStream(incomingClient.getOutputStream());
-            out.flush();
-
-            String message = in.nextLine();
-            System.out.println(message);
-            // Test connection
-            out.writeBytes("[Server] Hello Client\n");
+            ServerClientThread playerHost = null, playerClient = null;
+            while (counter < 2) {
+                Socket incomingClient = serverSocket.accept();
+                if (counter == 0) {
+                    playerHost = new ServerClientThread(incomingClient, counter);
+                    playerHost.start();
+                } else {
+                    playerClient = new ServerClientThread(incomingClient, counter);
+                    playerClient.start();
+                }
+                counter++;
+            }
 
             TicTacToe game = new TicTacToe();
+            game.resetGame();
 
-            while (true) {
-                message = in.nextLine();
-                System.out.println(message);
-            }
+            playerHost.tell("1;0;" + game.toPacketFormat());
+
+
+//            playerHost.tell("Starting game...");
+//            playerClient.tell("Starting game...");
 
 
 
@@ -58,8 +62,7 @@ public class ClientServer
             // If I fail to realize the connection was closed then I may accidentally
             // leave it running and waste resources.  Why it is good to send "Are You There?"
         }
-        catch (IOException e)
-        {
+        catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -81,16 +84,20 @@ public class ClientServer
 
             Scanner in = new Scanner(clientSocket.getInputStream());
 
-            out.writeBytes("[Client] Hello Server\n");
+//            out.writeBytes("[Client] Hello Server\n");
+
 
             while (true) {
                 String message = in.nextLine();
                 System.out.println(message);
+                String[] fields = message.split(";");
+
+                if (fields.length == 11) { // packet received from server
+                    if (fields[0].equals("1")) System.out.println("Your move was successful.");
+                    else System.out.println("Your move was not successful.");
+                }
+
             }
-
-
-            // Done talking
-//            clientSocket.close();
 
         }
         catch (UnknownHostException e)
@@ -103,5 +110,13 @@ public class ClientServer
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public void setTurn(int turn) {
+        this.turn = turn;
     }
 }

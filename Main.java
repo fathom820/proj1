@@ -51,7 +51,7 @@ public class Main {
              */
             while (!serverStarted) Thread.onSpinWait();
             startClient();
-
+            startClient();
         }
 
 
