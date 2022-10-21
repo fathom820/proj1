@@ -11,6 +11,7 @@ public class ClientServer
 
     ServerSocket serverSocket;
 
+    int currentConnections = 0;
 
     public void setupServer()
     {
@@ -28,6 +29,8 @@ public class ClientServer
         try
         {
             // Have the server listen and accept if someone tries to connect.
+            System.out.println("Starting local server");
+            Main.setServerStarted(true);
             Socket incomingClient = serverSocket.accept();
 
             Scanner in = new Scanner(incomingClient.getInputStream());
@@ -37,8 +40,17 @@ public class ClientServer
 
             String message = in.nextLine();
             System.out.println(message);
+            // Test connection
+            out.writeBytes("[Server] Hello Client\n");
 
-            out.writeBytes("Hello Client\n");
+            TicTacToe game = new TicTacToe();
+
+            while (true) {
+                message = in.nextLine();
+                System.out.println(message);
+            }
+
+
 
             // If the client closes the connection if all goes well I will realize
             // it as well and my side will be closed automatically.
@@ -58,7 +70,8 @@ public class ClientServer
 
         try
         {
-            // Setup a socket that will try to connect to a specific address 
+            System.out.println("Starting client");
+            // Setup a socket that will try to connect to a specific address
             // and port number.
             clientSocket = new Socket("127.0.0.1", 4446);
 
@@ -68,10 +81,13 @@ public class ClientServer
 
             Scanner in = new Scanner(clientSocket.getInputStream());
 
-            out.writeBytes("Hello Server\n");
+            out.writeBytes("[Client] Hello Server\n");
 
-            String message = in.nextLine();
-            System.out.println(message);
+            while (true) {
+                String message = in.nextLine();
+                System.out.println(message);
+            }
+
 
             // Done talking
 //            clientSocket.close();

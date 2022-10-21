@@ -144,6 +144,7 @@ public class TicTacToe
 	public String toString()
 	{
 		String board = "-------\n";
+		board += "* A B C\n";
 		for (int r=0;r<game_board.length;r++)
 		{
 		    for (int c=0;c<game_board[r].length;c++)
@@ -155,5 +156,4 @@ public class TicTacToe
 		}
 		return board;
 	}
-
 }
